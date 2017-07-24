@@ -1,0 +1,81 @@
+package com.sourav.jio;
+
+import java.util.Scanner;
+
+public class Knapsack {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int _numberOfItems = sc.nextInt();
+		int _knapsackSize = sc.nextInt();
+		int[] _itemValue = new int[_numberOfItems];
+		int[] _itemWeight = new int[_numberOfItems];
+		for (int x = 0; x < _numberOfItems; x++) {
+			_itemValue[x] = sc.nextInt();
+			_itemWeight[x] = sc.nextInt();
+		}
+		sc.close();
+		System.out.println(getMaximumValue(_knapsackSize, _itemValue,
+				_itemWeight));
+	}
+
+	private static double getMaximumValue(int _knapsackSize, int[] _itemValue,
+			int[] _itemWeight) {
+		double weight = 0.0;
+		double value = 0.0;
+		double[] _valuePerItems = new double[_itemValue.length];
+
+		for (int m = 0; m < _valuePerItems.length; m++) {
+			_valuePerItems[m] = (_itemValue[m] / _itemWeight[m]);
+		}
+
+		if (_valuePerItems.length > 1) {
+			sortAllArray(_valuePerItems, _itemValue, _itemWeight);
+		}
+
+		for (int n = 0; n < _valuePerItems.length; n++) {
+		    weight += _itemWeight[n];
+			if ( ) {
+				// x-_knapsackSize
+			} else {
+				value += _valuePerItems[n] * _itemWeight[n];
+				_knapsackSize -= weight;
+			}
+			System.out.println(weight + "    " + value);
+
+			if (_knapsackSize == 0) {
+				break;
+			}
+		}
+
+		/*
+		 * for (int m = 0; m < _valuePerItems.length; m++) {
+		 * System.out.println("Value : " + _itemWeight[m] + ", Value PerItem : "
+		 * + _valuePerItems[m]); }
+		 */
+		return weight;
+	}
+
+	private static void sortAllArray(double[] _valuePerItems, int[] _itemValue,
+			int[] _itemWeight) {
+		for (int x = 0; x < _valuePerItems.length; x++) {
+			for (int y = x + 1; y < _valuePerItems.length; y++) {
+				if (_valuePerItems[x] < _valuePerItems[y]) {
+
+					_valuePerItems[x] += _valuePerItems[y];
+					_valuePerItems[y] = _valuePerItems[x] - _valuePerItems[y];
+					_valuePerItems[x] = _valuePerItems[x] - _valuePerItems[y];
+
+					/*
+					 * _itemValue[x] += _itemValue[y]; _itemValue[y] =
+					 * _itemValue[x] - _itemValue[y]; _itemValue[x] =
+					 * _itemValue[x] - _itemValue[y];
+					 */
+
+					_itemWeight[x] += _itemWeight[y];
+					_itemWeight[y] = _itemWeight[x] - _itemWeight[y];
+					_itemWeight[x] = _itemWeight[x] - _itemWeight[y];
+				}
+			}
+		}
+	}
+}
